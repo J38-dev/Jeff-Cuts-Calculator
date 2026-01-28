@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barber Log</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+ <header class="app-header">
+  <img src="images/jeff-cuts-logo-removebg-preview.png" alt="Barber Logo" class="logo">
+  <p id="date"></p>
+</header>
+
+
+  <select id="category"></select>
+
+<select id="service"></select>
+
+<input type="number" id="price" readonly>
+
+
+    <button id="addBtn">ADD CUT</button>
+  </section>
+
+  <section class="card stats">
+    <h2>Today</h2>
+    <p>Total: <strong id="total">R0</strong></p>
+    <p>Clients: <span id="count">0</span></p>
+  </section>
+
+  <ul id="list"></ul>
+
+  <script src="app.js"></script>
+</body>
+</html>

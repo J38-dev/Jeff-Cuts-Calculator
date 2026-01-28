@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  padding: 15px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+header h1 {
+  margin: 5px 0;
+}
+
+.card {
+  background: #1c1c1c;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+select,
+input,
+button {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+
+select,
+input {
+  background: #2a2a2a;
+  color: #fff;
+}
+
+button {
+  background: #ffffff;
+  color: #000;
+  font-weight: bold;
+}
+
+.stats {
+  text-align: center;
+}
+
+#list {
+  list-style: none;
+  padding: 0;
+}
+
+#list li {
+  background: #222;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#list button {
+  width: auto;
+  padding: 6px 10px;
+  background: red;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+}
