@@ -3,8 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Jeff Cuts Log</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Barber Log</title>
+ <link rel="stylesheet" href="style.css">
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
 </head>
 <body>
 
@@ -13,26 +19,49 @@
   <p id="date"></p>
 </header>
 
-
+<section class="booking-form">
+  <label for="category">Select Category</label>
   <select id="category"></select>
 
-<select id="service"></select>
+  <label for="service">Select Service</label>
+  <select id="service"></select>
 
-<input type="number" id="price" readonly>
+  <label for="price">Price</label>
+  <input type="number" id="price" readonly>
 
+  <label for="bookingDate">Select Date</label>
+  <input type="date" id="bookingDate">
 
-    <button id="addBtn">ADD CUT</button>
-  </section>
+  <label for="bookingTime">Select Time</label>
+  <input type="time" id="bookingTime">
 
-  <section class="card stats">
-    <h2>Today</h2>
-    <p>Total: <strong id="total">R0</strong></p>
-    <p>Clients: <span id="count">0</span></p>
-  </section>
+  <button id="addBtn">ADD CUT</button>
+  <button id="bookBtn">Book Appointment</button>
+</section>
 
-  <ul id="list"></ul>
+<section class="card stats">
+  <h2>Today</h2>
+  <p>Total: <strong id="total">R0</strong></p>
+  <p>Clients: <span id="count">0</span></p>
+</section>
+
+<ul id="list"></ul>
+
+<footer class="footer">
+  <p>© 2026 Jeff Cuts</p>
+
+  <div class="footer-socials">
+    <a href="https://www.instagram.com/the_jeff_cut" target="_blank">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://www.facebook.com/Jeffery Jefferson="_blank">
+      <i class="fab fa-facebook"></i>
+    </a>
+  </div>
+</footer>
 
   <script src="app.js"></script>
 </body>
 </html>
+
 
