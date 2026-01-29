@@ -80,3 +80,38 @@ button {
   width: 200px;
   height: auto;
 }
+
+.footer {
+  background-color: #111; /* dark background */
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.footer-socials {
+  margin-top: 10px;
+}
+
+.footer-socials a {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 20px;
+  transition: color 0.3s;
+}
+
+.footer-socials a:hover {
+  color: #f0a500; /* highlight on hover */
+}
+
+@media (max-width: 600px) {
+  .footer-socials a {
+    margin: 0 5px;
+    font-size: 18px;
+  }
+}
