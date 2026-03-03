@@ -82,36 +82,111 @@ button {
 }
 
 .footer {
-  background-color: #111; /* dark background */
-  color: #fff;
-  text-align: center;
-  padding: 20px;
   margin-top: 40px;
-}
-
-.footer p {
-  margin: 0;
+  padding: 20px 0;
+  text-align: center;
   font-size: 14px;
+  opacity: 0.7;
 }
 
 .footer-socials {
   margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
 }
 
 .footer-socials a {
-  color: #fff;
-  margin: 0 10px;
+  color: inherit;
   font-size: 20px;
-  transition: color 0.3s;
 }
 
-.footer-socials a:hover {
-  color: #f0a500; /* highlight on hover */
+/* Leave a Review Section */
+#leave-review {
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
 }
 
+.review-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.review-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-family: 'Helvetica', Arial, sans-serif;
+}
+
+.review-text {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+/* Google Review Button */
+.google-review-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff; /* Google-style white button */
+  color: #000;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
+  padding: 14px 30px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.google-review-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* SVG Icon */
+.google-btn-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
-  .footer-socials a {
-    margin: 0 5px;
-    font-size: 18px;
+  .review-title {
+    font-size: 1.5rem;
   }
+  .review-text {
+    font-size: 1rem;
+  }
+  .google-review-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+  .google-btn-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Fade in for all main sections */
+.section-padding {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+button, .google-review-button, .book-now-button {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover, .google-review-button:hover, .book-now-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
