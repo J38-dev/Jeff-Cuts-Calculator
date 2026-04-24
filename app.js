@@ -28,6 +28,13 @@ const PRICING = {
     "Enhancer": 80,
     "Haircut & Wash": 70,
     "Eyebrows": 80
+  },
+  "Papa's At The Jeff's": {
+    "Wave Butter (Pomade)": 140,
+    "Razor Bump": 100,
+    "Beard Oil": 140,
+    "Beard Butter": 110,
+    "All in One Wash": 120
   }
 };
 
