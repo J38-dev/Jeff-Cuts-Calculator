@@ -1,3 +1,4 @@
+// ===============================
 // PRICING STRUCTURE
 // ===============================
 const PRICING = {
@@ -27,18 +28,11 @@ const PRICING = {
     "Enhancer": 80,
     "Haircut & Wash": 70,
     "Eyebrows": 80
-  },
-  "Papa's At The Jeff's": {
-    "Wave Butter (Pomade)": 140,
-    "Razor Bump": 100,
-    "Beard Oil": 140,
-    "Beard Butter": 110,
-    "All in One Wash": 120
   }
 };
 
 // ===============================
-// DOM ELEMENTS
+// DOM ELEMENTS (ONLY ONCE)
 // ===============================
 const dateEl = document.getElementById("date");
 const categoryEl = document.getElementById("category");
@@ -52,6 +46,22 @@ const bookingDateEl = document.getElementById("bookingDate");
 const bookingTimeEl = document.getElementById("bookingTime");
 const bookBtn = document.getElementById("bookBtn");
 
+// ===============================
+// TIME SYSTEM
+// ===============================
+const timeSlots = [
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00"
+];
+
+let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
+
 // Prevent past dates
 bookingDateEl.min = new Date().toISOString().split("T")[0];
 
@@ -61,12 +71,12 @@ bookingDateEl.min = new Date().toISOString().split("T")[0];
 let entries = JSON.parse(localStorage.getItem("cuts")) || [];
 
 // ===============================
-// SET TODAY'S DATE
+// SET TODAY DATE
 // ===============================
 dateEl.textContent = new Date().toDateString();
 
 // ===============================
-// POPULATE CATEGORY DROPDOWN
+// POPULATE CATEGORY
 // ===============================
 Object.keys(PRICING).forEach(category => {
   const option = document.createElement("option");
@@ -76,12 +86,11 @@ Object.keys(PRICING).forEach(category => {
 });
 
 // ===============================
-// LOAD SERVICES BASED ON CATEGORY
+// LOAD SERVICES
 // ===============================
 function loadServices() {
   serviceEl.innerHTML = "";
-  const selectedCategory = categoryEl.value;
-  const services = PRICING[selectedCategory];
+  const services = PRICING[categoryEl.value];
 
   Object.keys(services).forEach(service => {
     const option = document.createElement("option");
@@ -97,143 +106,23 @@ function loadServices() {
 // UPDATE PRICE
 // ===============================
 function updatePrice() {
-  const category = categoryEl.value;
-  const service = serviceEl.value;
-  priceEl.value = PRICING[category][service];
+  priceEl.value = PRICING[categoryEl.value][serviceEl.value];
 }
 
 // ===============================
-// EVENTS
+// LOAD TIME SLOTS
 // ===============================
-categoryEl.addEventListener("change", loadServices);
-serviceEl.addEventListener("change", updatePrice);
-
-// ===============================
-// ADD ENTRY
-// ===============================
-addBtn.addEventListener("click", () => {
-  const category = categoryEl.value;
-  const service = serviceEl.value;
-  const price = PRICING[category][service];
-
-  entries.push({
-    category,
-    service,
-    price,
-    time: new Date().toLocaleTimeString()
-  });
-
-  render();
-});
-
-// ===============================
-// REMOVE ENTRY
-// ===============================
-function removeEntry(index) {
-  entries.splice(index, 1);
-  render();
-}
-
-// ===============================
-// RENDER LIST
-// ===============================
-function render() {
-  listEl.innerHTML = "";
-  let total = 0;
-
-  entries.forEach((item, index) => {
-    total += item.price;
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <span>${item.category} • ${item.service} — R${item.price}</span>
-      <button onclick="removeEntry(${index})">X</button>
-    `;
-    listEl.appendChild(li);
-  });
-
-  totalEl.textContent = "R" + total;
-  countEl.textContent = entries.length;
-
-  localStorage.setItem("cuts", JSON.stringify(entries));
-}
-
-// ===============================
-// INITIAL LOAD
-// ===============================
-loadServices();
-render();
-
-// ===============================
-// BOOK APPOINTMENT (WHATSAPP)
-// ===============================
-const barberNumber = "27671107595"; // Barber's WhatsApp
-
-bookBtn.addEventListener("click", () => {
-  if (!bookingDateEl.value) {
-    alert("Please select a booking date");
-    return;
-  }
-
-  if (!bookingTimeEl.value) {
-    alert("Please select a booking time");
-    return;
-  }
-
-  if (entries.length === 0) {
-    alert("Please add at least one service");
-    return;
-  }
-
-  const bookingTime = bookingTimeEl.value;
-  const services = entries.map(item => `${item.service} (R${item.price})`).join(", ");
-  const total = entries.reduce((sum, item) => sum + item.price, 0);
-
-  const message = encodeURIComponent(`
-Hi Jeff Cuts, I would like to book an appointment.
-
-Date: ${bookingDateEl.value}
-Time: ${bookingTime}
-Services: ${services}
-Total: R${total}
-  `);
-
-  const whatsappLink = `https://wa.me/${barberNumber}?text=${message}`;
-  window.open(whatsappLink, "_blank");
-
-  entries = [];
-  render();
-});
-
-const bookingDateEl = document.getElementById("bookingDate");
-const bookingTimeEl = document.getElementById("bookingTime");
-const bookBtn = document.getElementById("bookBtn");
-
-const timeSlots = [
-  "11:00",
-  "12:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
-  "17:00",
-  "18:00"
-];
-
-let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
-
-bookingDateEl.min = new Date().toISOString().split("T")[0];
-
 function loadTimeSlots() {
   bookingTimeEl.innerHTML = "";
 
-  const selectedDate = bookingDateEl.value;
+  const date = bookingDateEl.value;
 
-  if (!selectedDate) {
+  if (!date) {
     bookingTimeEl.innerHTML = '<option disabled selected>Select date first</option>';
     return;
   }
 
-  const bookedTimes = bookings[selectedDate] || [];
+  const bookedTimes = bookings[date] || [];
   let available = 0;
 
   timeSlots.forEach(time => {
@@ -251,38 +140,107 @@ function loadTimeSlots() {
   }
 }
 
+// ===============================
+// EVENTS
+// ===============================
+categoryEl.addEventListener("change", loadServices);
+serviceEl.addEventListener("change", updatePrice);
 bookingDateEl.addEventListener("change", loadTimeSlots);
 
-// initial state
-bookingTimeEl.innerHTML = '<option disabled selected>Select date first</option>';
+// ===============================
+// ADD ENTRY
+// ===============================
+addBtn.addEventListener("click", () => {
+  const price = PRICING[categoryEl.value][serviceEl.value];
+
+  entries.push({
+    category: categoryEl.value,
+    service: serviceEl.value,
+    price
+  });
+
+  render();
+});
+
+// ===============================
+// REMOVE ENTRY
+// ===============================
+function removeEntry(index) {
+  entries.splice(index, 1);
+  render();
+}
+
+// ===============================
+// RENDER
+// ===============================
+function render() {
+  listEl.innerHTML = "";
+  let total = 0;
+
+  entries.forEach((item, index) => {
+    total += item.price;
+
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${item.category} • ${item.service} — R${item.price}</span>
+      <button onclick="removeEntry(${index})">X</button>
+    `;
+    listEl.appendChild(li);
+  });
+
+  totalEl.textContent = "R" + total;
+  countEl.textContent = entries.length;
+
+  localStorage.setItem("cuts", JSON.stringify(entries));
+}
+
+// ===============================
+// BOOK APPOINTMENT (MERGED)
+// ===============================
+const barberNumber = "27671107595";
 
 bookBtn.addEventListener("click", () => {
   const date = bookingDateEl.value;
   const time = bookingTimeEl.value;
 
-  if (!date) {
-    alert("Select a date first");
-    return;
-  }
+  if (!date) return alert("Select a date first");
+  if (!time) return alert("Select a time");
+  if (entries.length === 0) return alert("Add at least one service");
 
-  if (!time) {
-    alert("Select a time");
-    return;
-  }
-
-  if (!bookings[date]) {
-    bookings[date] = [];
-  }
-
+  // Prevent double booking
+  if (!bookings[date]) bookings[date] = [];
   if (bookings[date].includes(time)) {
-    alert("Time already taken");
-    return;
+    return alert("Time already taken");
   }
 
+  // Save booking
   bookings[date].push(time);
   localStorage.setItem("bookings", JSON.stringify(bookings));
 
-  alert("Booking confirmed ✅");
+  // WhatsApp message
+  const services = entries.map(i => `${i.service} (R${i.price})`).join(", ");
+  const total = entries.reduce((sum, i) => sum + i.price, 0);
 
+  const message = encodeURIComponent(`
+Hi Jeff Cuts, I would like to book an appointment.
+
+Date: ${date}
+Time: ${time}
+Services: ${services}
+Total: R${total}
+  `);
+
+  window.open(`https://wa.me/${barberNumber}?text=${message}`, "_blank");
+
+  // Reset
+  entries = [];
+  render();
   loadTimeSlots();
 });
+
+// ===============================
+// INIT
+// ===============================
+loadServices();
+render();
+bookingTimeEl.innerHTML = '<option disabled selected>Select date first</option>';
