@@ -203,3 +203,86 @@ Total: R${total}
   entries = [];
   render();
 });
+
+const bookingDateEl = document.getElementById("bookingDate");
+const bookingTimeEl = document.getElementById("bookingTime");
+const bookBtn = document.getElementById("bookBtn");
+
+const timeSlots = [
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00"
+];
+
+let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
+
+bookingDateEl.min = new Date().toISOString().split("T")[0];
+
+function loadTimeSlots() {
+  bookingTimeEl.innerHTML = "";
+
+  const selectedDate = bookingDateEl.value;
+
+  if (!selectedDate) {
+    bookingTimeEl.innerHTML = '<option disabled selected>Select date first</option>';
+    return;
+  }
+
+  const bookedTimes = bookings[selectedDate] || [];
+  let available = 0;
+
+  timeSlots.forEach(time => {
+    if (!bookedTimes.includes(time)) {
+      const option = document.createElement("option");
+      option.value = time;
+      option.textContent = time;
+      bookingTimeEl.appendChild(option);
+      available++;
+    }
+  });
+
+  if (available === 0) {
+    bookingTimeEl.innerHTML = '<option disabled>Fully Booked</option>';
+  }
+}
+
+bookingDateEl.addEventListener("change", loadTimeSlots);
+
+// initial state
+bookingTimeEl.innerHTML = '<option disabled selected>Select date first</option>';
+
+bookBtn.addEventListener("click", () => {
+  const date = bookingDateEl.value;
+  const time = bookingTimeEl.value;
+
+  if (!date) {
+    alert("Select a date first");
+    return;
+  }
+
+  if (!time) {
+    alert("Select a time");
+    return;
+  }
+
+  if (!bookings[date]) {
+    bookings[date] = [];
+  }
+
+  if (bookings[date].includes(time)) {
+    alert("Time already taken");
+    return;
+  }
+
+  bookings[date].push(time);
+  localStorage.setItem("bookings", JSON.stringify(bookings));
+
+  alert("Booking confirmed ✅");
+
+  loadTimeSlots();
+});
