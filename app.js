@@ -1,5 +1,5 @@
 // ===============================
-// PRICING STRUCTURE
+// PRICING
 // ===============================
 const PRICING = {
   "Adult Pricing": {
@@ -32,7 +32,7 @@ const PRICING = {
 };
 
 // ===============================
-// DOM ELEMENTS (ONLY ONCE)
+// DOM
 // ===============================
 const dateEl = document.getElementById("date");
 const categoryEl = document.getElementById("category");
@@ -47,47 +47,35 @@ const bookingTimeEl = document.getElementById("bookingTime");
 const bookBtn = document.getElementById("bookBtn");
 
 // ===============================
-// TIME SYSTEM
+// STORAGE
 // ===============================
-const timeSlots = [
-  "11:00",
-  "12:00",
-  "13:00",
-  "14:00",
-  "15:00",
-  "16:00",
-  "17:00",
-  "18:00"
-];
-
+let entries = JSON.parse(localStorage.getItem("cuts")) || [];
 let bookings = JSON.parse(localStorage.getItem("bookings")) || {};
 
-// Prevent past dates
+// ===============================
+// TIME SLOTS
+// ===============================
+const timeSlots = [
+  "11:00","12:00","13:00","14:00",
+  "15:00","16:00","17:00","18:00"
+];
+
+// ===============================
+// INIT
+// ===============================
+dateEl.textContent = new Date().toDateString();
 bookingDateEl.min = new Date().toISOString().split("T")[0];
 
 // ===============================
-// LOAD SAVED ENTRIES
+// CATEGORY
 // ===============================
-let entries = JSON.parse(localStorage.getItem("cuts")) || [];
-
-// ===============================
-// SET TODAY DATE
-// ===============================
-dateEl.textContent = new Date().toDateString();
-
-// ===============================
-// POPULATE CATEGORY
-// ===============================
-Object.keys(PRICING).forEach(category => {
+Object.keys(PRICING).forEach(cat => {
   const option = document.createElement("option");
-  option.value = category;
-  option.textContent = category;
+  option.value = cat;
+  option.textContent = cat;
   categoryEl.appendChild(option);
 });
 
-// ===============================
-// LOAD SERVICES
-// ===============================
 function loadServices() {
   serviceEl.innerHTML = "";
   const services = PRICING[categoryEl.value];
@@ -102,15 +90,15 @@ function loadServices() {
   updatePrice();
 }
 
-// ===============================
-// UPDATE PRICE
-// ===============================
 function updatePrice() {
   priceEl.value = PRICING[categoryEl.value][serviceEl.value];
 }
 
+categoryEl.addEventListener("change", loadServices);
+serviceEl.addEventListener("change", updatePrice);
+
 // ===============================
-// LOAD TIME SLOTS
+// TIME SYSTEM
 // ===============================
 function loadTimeSlots() {
   bookingTimeEl.innerHTML = "";
@@ -122,11 +110,11 @@ function loadTimeSlots() {
     return;
   }
 
-  const bookedTimes = bookings[date] || [];
+  const booked = bookings[date] || [];
   let available = 0;
 
   timeSlots.forEach(time => {
-    if (!bookedTimes.includes(time)) {
+    if (!booked.includes(time)) {
       const option = document.createElement("option");
       option.value = time;
       option.textContent = time;
@@ -140,15 +128,10 @@ function loadTimeSlots() {
   }
 }
 
-// ===============================
-// EVENTS
-// ===============================
-categoryEl.addEventListener("change", loadServices);
-serviceEl.addEventListener("change", updatePrice);
 bookingDateEl.addEventListener("change", loadTimeSlots);
 
 // ===============================
-// ADD ENTRY
+// ADD CUT
 // ===============================
 addBtn.addEventListener("click", () => {
   const price = PRICING[categoryEl.value][serviceEl.value];
@@ -163,7 +146,7 @@ addBtn.addEventListener("click", () => {
 });
 
 // ===============================
-// REMOVE ENTRY
+// REMOVE
 // ===============================
 function removeEntry(index) {
   entries.splice(index, 1);
@@ -195,7 +178,7 @@ function render() {
 }
 
 // ===============================
-// BOOK APPOINTMENT (MERGED)
+// BOOKING (FINAL COMBINED)
 // ===============================
 const barberNumber = "27671107595";
 
@@ -205,10 +188,10 @@ bookBtn.addEventListener("click", () => {
 
   if (!date) return alert("Select a date first");
   if (!time) return alert("Select a time");
-  if (entries.length === 0) return alert("Add at least one service");
+  if (entries.length === 0) return alert("Add a service");
 
-  // Prevent double booking
   if (!bookings[date]) bookings[date] = [];
+
   if (bookings[date].includes(time)) {
     return alert("Time already taken");
   }
@@ -217,7 +200,7 @@ bookBtn.addEventListener("click", () => {
   bookings[date].push(time);
   localStorage.setItem("bookings", JSON.stringify(bookings));
 
-  // WhatsApp message
+  // WhatsApp
   const services = entries.map(i => `${i.service} (R${i.price})`).join(", ");
   const total = entries.reduce((sum, i) => sum + i.price, 0);
 
@@ -232,14 +215,13 @@ Total: R${total}
 
   window.open(`https://wa.me/${barberNumber}?text=${message}`, "_blank");
 
-  // Reset
   entries = [];
   render();
   loadTimeSlots();
 });
 
 // ===============================
-// INIT
+// START
 // ===============================
 loadServices();
 render();
