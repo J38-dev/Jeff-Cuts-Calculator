@@ -69,6 +69,42 @@
     </a>
   </div>
 </section>
+
+<!-- PAYMENT SECTION -->
+<section class="payment-section">
+  <div class="payment-card">
+
+    <h2>Complete Your Booking</h2>
+    <p class="payment-text">
+      Secure your cut instantly with online payment.
+    </p>
+
+    <!-- PAYFAST BUTTON -->
+    <form action="https://www.payfast.co.za/eng/process" method="post">
+
+      <!-- YOUR PAYFAST DETAILS -->
+      <input type="hidden" name="merchant_id" value="YOUR_MERCHANT_ID">
+      <input type="hidden" name="merchant_key" value="YOUR_MERCHANT_KEY">
+
+      <!-- CUSTOMER INFO -->
+      <input type="hidden" name="name_first" value="Client">
+      <input type="hidden" name="email_address" value="client@email.com">
+
+      <!-- PAYMENT DETAILS -->
+      <input type="hidden" name="amount" value="120.00">
+      <input type="hidden" name="item_name" value="Jeff Cuts Booking">
+
+      <button type="submit" class="pay-btn">
+        Proceed To Payment
+      </button>
+
+    </form>
+
+  </div>
+</section>
+
+
+
 <footer class="footer">
   <p>© 2026 Jeff Cuts</p>
 
@@ -86,6 +122,9 @@
                                 
   </div>
 </footer>
+
+
+
                                 <script>
 const sections = document.querySelectorAll('.section-padding');
 
@@ -103,6 +142,13 @@ sections.forEach(section => observer.observe(section));
   <script src="app.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
