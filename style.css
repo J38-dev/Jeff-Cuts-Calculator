@@ -208,3 +208,72 @@ button:hover, .google-review-button:hover, .book-now-button:hover {
 .time-dropdown option:disabled {
   color: #777;
 }
+
+/* PAYMENT SECTION */
+
+.payment-section {
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.payment-card {
+  width: 100%;
+  max-width: 420px;
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(255,255,255,0.04);
+}
+
+.payment-card h2 {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.payment-text {
+  color: #999;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+.price-box {
+  background: #181818;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.pay-btn {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #fff;
+  border-radius: 14px;
+
+  background: #fff;
+  color: #000;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pay-btn:hover {
+  background: #000;
+  color: #fff;
+  }
