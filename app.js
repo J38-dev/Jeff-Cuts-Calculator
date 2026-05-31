@@ -252,3 +252,35 @@ render();
 if (bookingTimeEl) {
   bookingTimeEl.innerHTML = '<option disabled selected>Select date first</option>';
 }
+
+
+                              (() => {
+
+  const jcBookingDateField =
+    document.getElementById("bookingDate");
+
+  if (!jcBookingDateField) return;
+
+  jcBookingDateField.addEventListener("change", function () {
+
+    if (!this.value) return;
+
+    const jcSelectedDate =
+      new Date(this.value + "T00:00:00");
+
+    const jcDay =
+      jcSelectedDate.getDay();
+
+    // Sunday = 0
+    if (jcDay === 0) {
+
+      alert(
+        "Sorry, Jeff Cuts is closed on Sundays. Please choose another day."
+      );
+
+      this.value = "";
+    }
+
+  });
+
+})();
